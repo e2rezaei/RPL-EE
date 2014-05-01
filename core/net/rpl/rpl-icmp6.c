@@ -95,6 +95,7 @@ void RPL_DEBUG_DAO_OUTPUT(rpl_parent_t *);
 
 extern rpl_of_t RPL_OF;
 
+static int probe_total=0;
 /*---------------------------------------------------------------------------*/
 static int
 get_global_addr(uip_ipaddr_t *addr)
@@ -901,4 +902,24 @@ uip_rpl_input(void)
 
   uip_len = 0;
 }
+/*----------------------------------------------------------------------*/
+void probe_output(uip_ipaddr_t *dest)
+{
+  unsigned char *buffer;
+
+//  PRINTF("RPL: Sending a DAO ACK with sequence number %d to ", sequence);
+//  PRINT6ADDR(dest);
+//  PRINTF("\n");
+
+  buffer = UIP_ICMP_PAYLOAD;
+
+  buffer[0] = buffer[1] = 0;
+probe_total++;
+printf("PROBE-MSG num=%d ADDR=%02x%02x \n",probe_total, ((uint8_t *)dest)[14], ((uint8_t *)dest)[15]);
+  uip_icmp6_send(dest, ICMP6_RPL, RPL_PROBE, 2);
+
+}
+
+
+
 #endif /* UIP_CONF_IPV6 */
