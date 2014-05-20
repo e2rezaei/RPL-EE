@@ -131,6 +131,7 @@ neighbor_link_callback(rpl_parent_t *p, int status, int numtx)
         (unsigned)(packet_etx / RPL_DAG_MC_ETX_DIVISOR));
     p->link_metric = new_etx;
   }
+  monitor_parents();
 }
 
 static rpl_rank_t

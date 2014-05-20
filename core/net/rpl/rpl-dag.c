@@ -1272,4 +1272,34 @@ rpl_process_dio(uip_ipaddr_t *from, rpl_dio_t *dio)
   p->dtsn = dio->dtsn;
 }
 /*---------------------------------------------------------------------------*/
+void monitor_parents(void)
+{
+	rpl_parent_t *p;
+	uip_ipaddr_t *dest;
+ uint16_t temp1,temp2;
+
+//counter++;
+	rpl_parent_t *pref_parent =(&instance_table[0])->current_dag->preferred_parent;
+	rpl_instance_t *instance=&instance_table[0];
+temp1 = ((((&instance_table[0])->current_dag->rank)%256)*100)/256;
+	printf("rank= %u.%u:{", (((&instance_table[0])->current_dag->rank)/256), temp1);
+	for(p = nbr_table_head(rpl_parents); p != NULL ;     p = nbr_table_next(rpl_parents, p))
+	{	dest=rpl_get_parent_ipaddr(p);
+		printf("(");
+		if(p==pref_parent)
+			printf("pref-prnt ");
+		printf("%02x ", ((uint8_t *)dest)[15]);
+temp1 = ((p->link_metric%128)*100)/128;
+temp2 = ((p->rank%256)*100)/256;
+		printf(" etx=%d.%2d,rank=%u.%2u)", p->link_metric/128, temp1 ,p->rank/256 , temp2);
+//printf("%d- etx=%d.%2d,rank=%u.%2u)", counter, p->link_metric/128, temp1 ,p->rank/256 , temp2);
+//printf("%d   %d.%2d \n", counter, p->link_metric/128, temp1);
+		  /*PRINTF("RPL: My path ETX to the root is %u.%u\n",
+			instance->mc.obj.etx / RPL_DAG_MC_ETX_DIVISOR,
+			(instance->mc.obj.etx % RPL_DAG_MC_ETX_DIVISOR * 100) /
+			 RPL_DAG_MC_ETX_DIVISOR);*/
+		}
+	printf("}\n");
+
+}
 #endif /* UIP_CONF_IPV6 */

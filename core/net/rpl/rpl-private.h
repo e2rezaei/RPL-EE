@@ -299,6 +299,10 @@ rpl_parent_t *rpl_select_parent(rpl_dag_t *dag);
 rpl_dag_t *rpl_select_dag(rpl_instance_t *instance,rpl_parent_t *parent);
 void rpl_recalculate_ranks(void);
 
+//elnaz
+void monitor_parents(void);
+//elnaz
+
 /* RPL routing table functions. */
 void rpl_remove_routes(rpl_dag_t *dag);
 void rpl_remove_routes_by_nexthop(uip_ipaddr_t *nexthop, rpl_dag_t *dag);
